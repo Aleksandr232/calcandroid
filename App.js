@@ -1,6 +1,38 @@
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 import React, {Component} from 'react';
+import { AppButton } from './components/ui/AppButton';
+import { AppButtonbottom } from './components/ui/appButtonbottom';
+import { AppButtonSimbol } from './components/ui/appButtonSimbol';
 import * as math from 'mathjs'
+
+const ClearButton=(props)=>(
+  <AppButtonSimbol onPress={props.handleClear}>
+      {props.children}
+  </AppButtonSimbol>
+);
+
+const Input = (props)=>(
+  <Text style={{
+    borderColor: 'gray',
+    left: 300,
+    bottom: 50,
+    fontSize: 30
+  }}
+  >{props.input}</Text>
+)
+
+const isOperator = val => {
+  return !isNaN(val) || val === "." || val === "=";
+};
+
+export const Button = props => (
+  <View style={`styles.buttonwarpper ${
+    isOperator(props.children) ? null : "operator"
+  }`}
+  onPress={() => props.handlePress(props.children)}>
+      {props.children}
+  </View>
+);
 
 
 export default class App extends Component{
@@ -23,66 +55,79 @@ export default class App extends Component{
 }
     render(){
       return (
-        <View style={styles.container}>
-          <View style={styles.calcwrapper}>
+      <View style={styles.container}>
+        <View style={styles.calcwrapper}>
+         <TextInput onChangeText={Input} ></TextInput>
           <View style={styles.row}>
-              <View style={styles.button}>
-                  <Button title='C'></Button>
-              </View>
-              <View style={styles.button}>
-                  <Button title='%'></Button>
-              </View>
-              <View style={styles.button}>
-                  <Button title=','></Button>
-              </View>
-              <View style={styles.button}>
-                  <Button title='+'></Button>
-                </View>
+            <View >
+                <ClearButton>C</ClearButton>
+            </View>
+            <View >
+                <AppButtonSimbol onPress={this.addToInput}>%</AppButtonSimbol>
+            </View>
+            <View >
+                <AppButtonSimbol>,</AppButtonSimbol>
+            </View>
+            <View >
+                <AppButtonSimbol>+</AppButtonSimbol>
+            </View>  
           </View>
           <View style={styles.row}>
-              <View style={styles.button}>
-                  <Button title='7'></Button>
-              </View>
-              <View style={styles.button}>
-                  <Button title='8'></Button>
-              </View>
-              <View style={styles.button}>
-                  <Button title='9'></Button>
-              </View>
-              <View style={styles.button}>
-                  <Button title='/'></Button>
-                </View>
+            <View >
+                <AppButton>7</AppButton>
+            </View>
+            <View >
+                <AppButton>8</AppButton>
+            </View>
+            <View >
+                <AppButton>9</AppButton>
+            </View>
+            <View >
+                <AppButtonSimbol>/</AppButtonSimbol>
+            </View>
           </View>
-          <View style={styles.row}>
-              <View style={styles.button}>
-                  <Button title='4'></Button>
-              </View>
-              <View style={styles.button}>
-                  <Button title='5'></Button>
-              </View>
-              <View style={styles.button}>
-                  <Button title='6'></Button>
-              </View>
-              <View style={styles.button}>
-                  <Button title='*'></Button>
-                </View>
+        <View style={styles.row}>
+          <View >
+                <AppButton>4</AppButton>
           </View>
-          <View style={styles.row}>
-              <View style={styles.button}>
-                  <Button title='1'></Button>
-              </View>
-              <View style={styles.button}>
-                  <Button title='2'></Button>
-              </View>
-              <View style={styles.button}>
-                  <Button  title='3'></Button>
-              </View>
-              <View style={styles.button}>
-                  <Button title='-'></Button>
-                </View>
+          <View >
+                <AppButton>5</AppButton>
           </View>
+          <View >
+                <AppButton>6</AppButton>
+          </View>
+          <View >
+                <AppButtonSimbol>*</AppButtonSimbol>
           </View>
         </View>
+        <View style={styles.row}>
+          <View >
+                <AppButton>1</AppButton>
+          </View>
+          <View >
+                <AppButton>2</AppButton>
+          </View>
+          <View >
+                <AppButton>3</AppButton>
+          </View>
+          <View >
+                <AppButtonSimbol>-</AppButtonSimbol>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <View >
+                <AppButtonbottom>0</AppButtonbottom>
+          </View>
+          <View >
+                <AppButtonbottom>=</AppButtonbottom>
+          </View>
+        </View>
+      </View>
+      </View>
+    
+    
+  
+        
       );
     }
   
@@ -94,17 +139,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    top:90
   },
   row:{
-    flex: 1,
-    flexDirection: 'row',
+    flex: 2,
+    flexDirection: 'row', 
     
   },
-  button:{
-    width: 100,
-    height: 250
-  },
   calcwrapper:{
-    height: 141
+    marginVertical: 90
   }
 });
